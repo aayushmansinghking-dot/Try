@@ -3,144 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JP RESIDENCY | Cinematic Estate</title>
+    <title>JP RESIDENCY | Royal Estate</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Lato:wght@300;400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 1. GEMSTONE THEME --- */
+        /* --- THEME --- */
         :root {
-            --gold: #D4AF37;
-            --gold-light: #F9E79F;
-            --diamond: #E0F7FA;
-            --emerald: #0f5c38;
-            --emerald-bright: #2ecc71;
-            --ruby: #9b111e;
-            --ruby-bright: #e74c3c;
-            --black-void: #020202;
-            --panel: rgba(10, 20, 15, 0.95);
-            --border: 1px solid var(--gold);
+            --gold: #C5A059;
+            --gold-light: #E6C888;
+            --gold-dark: #806020;
+            --black-deep: #020202;
+            --panel: rgba(10, 12, 10, 0.96);
+            --border: 1px solid rgba(197, 160, 89, 0.3);
             --text: #F0F0F0;
+            --emerald: #104030;
+            --ruby: #501010;
         }
 
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            margin: 0; background: var(--black-void); color: var(--text); 
-            font-family: 'Lato', sans-serif; overflow-x: hidden; padding-bottom: 60px; 
+            margin: 0; background: var(--black-deep); color: var(--text); 
+            font-family: 'Lato', sans-serif; overflow-x: hidden; padding-bottom: 70px; 
         }
 
         /* --- BACKGROUND --- */
-        .bg-jewel {
+        .bg-imperial {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: 
-                radial-gradient(circle at 20% 0%, #0f2015, transparent 60%),
-                radial-gradient(circle at 80% 100%, #200505, transparent 60%);
-            animation: breathe 10s infinite alternate;
+                radial-gradient(circle at 50% 0%, #151515, transparent 80%),
+                linear-gradient(0deg, #000 0%, #080808 100%);
         }
-        @keyframes breathe { from { opacity: 0.7; } to { opacity: 1; } }
 
-        /* --- VIDEO INTRO --- */
-        #intro-screen {
+        /* --- ENTRY SCREEN (TRIGGER) --- */
+        #entry-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 20000;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 1s ease-in-out;
+            background: #000; z-index: 30000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s ease;
         }
-        #intro-video {
-            width: 100%; height: 100%; object-fit: cover;
+        
+        .entry-logo {
+            font-family: 'Cinzel'; font-size: 4rem; color: var(--gold);
+            text-shadow: 0 0 30px var(--gold-dark); margin-bottom: 50px;
+            animation: pulse 3s infinite;
         }
+
+        /* --- VIDEO LAYER --- */
+        #video-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 20000; display: none; /* Hidden until clicked */
+        }
+        #intro-video { width: 100%; height: 100%; object-fit: cover; }
+        
         #skip-btn {
             position: absolute; bottom: 30px; right: 30px;
-            background: rgba(0,0,0,0.5); border: 1px solid var(--gold); color: var(--gold);
+            background: rgba(0,0,0,0.6); border: 1px solid var(--gold); color: var(--gold);
             padding: 10px 20px; font-family: 'Cinzel'; cursor: pointer;
             z-index: 20001; opacity: 0.7; transition: 0.3s;
         }
-        #skip-btn:hover { opacity: 1; background: rgba(0,0,0,0.8); }
+        #skip-btn:hover { opacity: 1; background: #000; }
 
-        /* --- FOOTER --- */
-        .sticky-footer {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #000;
-            border-top: 2px solid var(--ruby); padding: 12px; text-align: center;
-            font-size: 0.8rem; color: var(--gold); z-index: 9999; letter-spacing: 1px;
-            font-family: 'Cinzel';
-        }
-
-        /* --- NOTIFICATIONS --- */
-        #toast {
-            position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-150%);
-            background: var(--diamond); color: #000; padding: 15px 40px; border-radius: 2px;
-            font-weight: 700; font-family: 'Cinzel'; z-index: 100000; transition: 0.5s;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border: 1px solid var(--gold);
-        }
-        #toast.show { transform: translateX(-50%) translateY(0); }
-        #toast.error { background: var(--ruby); color: white; border-color: red; }
-
-        /* --- LAYOUT --- */
+        /* --- MAIN APP LAYOUT --- */
         .screen { 
-            display: none; max-width: 850px; margin: 0 auto; padding: 50px 20px; 
-            animation: revealPage 1.5s cubic-bezier(0.2, 1, 0.3, 1);
+            display: none; max-width: 900px; margin: 0 auto; padding: 60px 20px; 
+            animation: fadeIn 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
         .screen.active { display: block; }
-        @keyframes revealPage { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 50% { opacity: 0.7; transform: scale(0.98); } }
 
         .card {
-            background: var(--panel); border: 1px solid var(--emerald); 
-            border-radius: 4px; padding: 40px;
-            box-shadow: 0 30px 90px rgba(0,0,0,1); position: relative;
+            background: var(--panel); border: var(--border); padding: 50px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9); position: relative;
         }
-        /* Ruby Corners */
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold); }
-        .card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--ruby); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
 
         /* --- TYPOGRAPHY --- */
         h1, h2 { font-family: 'Cinzel', serif; text-align: center; color: var(--gold); text-transform: uppercase; }
-        h1 { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
-        h2 { font-size: 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px; letter-spacing: 3px; }
-        h3 { color: var(--diamond); font-size: 0.9rem; text-transform: uppercase; margin-top: 40px; border-left: 3px solid var(--ruby); padding-left: 15px; letter-spacing: 2px; }
+        h1 { font-size: 3.5rem; margin-bottom: 5px; }
+        h2 { font-size: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 40px; letter-spacing: 4px; }
+        h3 { color: var(--gold-light); font-size: 0.9rem; text-transform: uppercase; margin-top: 40px; border-left: 3px solid var(--gold); padding-left: 15px; letter-spacing: 2px; }
 
         /* --- FORMS --- */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         @media(max-width: 650px) { .grid { grid-template-columns: 1fr; } }
 
-        label { display: block; color: var(--gold-light); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 2px; }
+        label { display: block; color: #888; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 2px; }
         
         input, select {
-            width: 100%; padding: 15px; background: rgba(0,0,0,0.4);
-            border: 1px solid #333; color: var(--diamond); border-radius: 2px;
+            width: 100%; padding: 15px; background: rgba(255,255,255,0.03);
+            border: 1px solid #333; color: white; border-radius: 0;
             font-family: 'Lato', sans-serif; font-size: 1.1rem; transition: 0.4s;
         }
-        input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-        input.input-err { border-color: var(--ruby-bright); animation: shake 0.4s; }
+        input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(197, 160, 89, 0.1); }
+        .input-err { border-color: var(--ruby); animation: shake 0.4s; }
         @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
 
         /* --- BUTTONS --- */
         .btn {
-            width: 100%; padding: 18px; margin-top: 40px;
-            background: linear-gradient(135deg, var(--ruby) 0%, #500000 100%);
-            border: 1px solid var(--ruby); color: white;
-            font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: bold;
+            width: 100%; padding: 20px; margin-top: 40px;
+            background: transparent; border: 1px solid var(--gold);
+            color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.9rem;
             cursor: pointer; transition: 0.5s; letter-spacing: 3px; text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .btn:hover { background: var(--ruby-bright); box-shadow: 0 0 30px var(--ruby); transform: translateY(-3px); }
+        .btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(197, 160, 89, 0.4); }
         
-        .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #8a6c1e 100%); color: black; border-color: var(--gold); }
-        .btn-gold:hover { background: white; box-shadow: 0 0 30px var(--gold); }
+        .btn-filled { background: var(--gold); color: #000; font-weight: bold; }
+        .btn-filled:hover { background: #fff; box-shadow: 0 0 40px rgba(255,255,255,0.3); }
+
+        .btn-start {
+            padding: 20px 60px; font-size: 1.2rem; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000; border: none; cursor: pointer; font-family: 'Cinzel'; letter-spacing: 4px;
+            transition: 0.5s;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--gold); }
 
         .btn-corner { 
             position: fixed; bottom: 80px; right: 20px; width: auto; padding: 10px 25px; 
-            font-size: 0.7rem; opacity: 0.8; background: #000; border: 1px solid var(--emerald); 
-            color: var(--emerald-bright); z-index: 100; font-family: 'Cinzel';
+            font-size: 0.7rem; opacity: 0.6; background: #000; border: 1px solid #444; 
+            color: #888; z-index: 100; font-family: 'Cinzel';
         }
 
-        /* --- IMAGES & TABLES --- */
-        .img-prev { width: 100%; height: 200px; object-fit: contain; border: 1px solid var(--gold); background: #000; margin-top: 10px; }
-        
+        /* --- TABLES & IMAGES --- */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { color: var(--gold); padding: 15px; border-bottom: 2px solid var(--emerald); text-align: center; font-family: 'Cinzel'; letter-spacing: 1px; }
-        td { padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; }
+        th { color: var(--gold); padding: 15px; border-bottom: 1px solid var(--gold); text-align: center; font-family: 'Cinzel'; font-size: 0.8rem; }
+        td { padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: #aaa; }
+        
+        .img-prev { width: 100%; height: 200px; object-fit: contain; border: 1px solid var(--gold); background: #000; margin-top: 10px; }
 
         /* --- LOADER --- */
         #loader {
@@ -149,64 +144,81 @@
             justify-content: center; align-items: center; flex-direction: column;
         }
         .spinner {
-            width: 80px; height: 80px; border: 2px solid rgba(212,175,55,0.1);
-            border-top: 2px solid var(--gold); border-bottom: 2px solid var(--ruby);
-            border-radius: 50%; animation: spin 1s linear infinite;
+            width: 1px; height: 100px; background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            animation: beam 1.5s infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes beam { 0% { opacity:0.3; height:50px; } 50% { opacity:1; height:120px; box-shadow: 0 0 20px var(--gold); } 100% { opacity:0.3; height:50px; } }
 
-        /* --- DYNAMIC FIELDS --- */
-        .dynamic-box { border: 1px dashed var(--gold); padding: 20px; margin-top: 20px; position: relative; background: rgba(0,0,0,0.3); }
-        .dynamic-title { position: absolute; top: -10px; left: 10px; background: #000; padding: 0 10px; color: var(--gold); font-size: 0.7rem; }
-
-        /* --- OWNER INPUTS --- */
-        .demand-input {
-            text-align: right; border: 1px solid var(--emerald) !important; padding: 10px !important;
-            font-family: 'Cinzel'; color: var(--emerald-bright) !important; font-size: 1.2rem !important;
+        /* --- NOTIFICATIONS --- */
+        #toast {
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-150%);
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: black; 
+            padding: 15px 40px; border-radius: 2px; font-weight: 800; font-family: 'Cinzel'; 
+            z-index: 100000; transition: 0.5s; box-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
+            border: 1px solid white; text-align: center; min-width: 300px;
         }
-        .demand-input:disabled { border: none !important; color: #fff !important; }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+        #toast.error { background: linear-gradient(135deg, #800, #f00); color: white; border: none; }
 
         /* --- SUCCESS CARD --- */
         .invite-card {
-            border: 2px solid var(--emerald); padding: 60px 40px; text-align: center;
-            background: linear-gradient(180deg, rgba(15, 92, 56, 0.2), transparent);
-            margin: 30px 0; position: relative;
+            border: 2px solid var(--gold); padding: 60px 40px; text-align: center;
+            background: linear-gradient(180deg, rgba(197, 160, 89, 0.08), transparent);
+            margin: 30px 0;
         }
-        .invite-card::before {
-            content: '♦'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            font-size: 2rem; color: var(--gold); background: var(--panel); padding: 0 10px;
+        .invite-title { font-family: 'Italianno', cursive; font-size: 4rem; color: var(--gold); margin-bottom: 10px; }
+        
+        /* --- DYNAMIC & OWNER FIELDS --- */
+        .dynamic-box { border: 1px dashed var(--gold); padding: 20px; margin-top: 20px; position: relative; background: rgba(0,0,0,0.3); }
+        .demand-input {
+            text-align: right; border: 1px solid var(--emerald) !important; padding: 10px !important;
+            font-family: 'Cinzel'; color: var(--emerald) !important; font-size: 1.2rem !important;
         }
-        .invite-title { font-family: 'Pinyon Script', cursive; font-size: 3.5rem; color: var(--gold); margin-bottom: 10px; text-shadow: 0 0 10px var(--gold); }
+        .demand-input:disabled { border: none !important; color: #fff !important; }
+        
+        /* --- FOOTER --- */
+        .sticky-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: #000;
+            border-top: 1px solid var(--gold-dark); padding: 15px; text-align: center;
+            font-size: 0.8rem; color: var(--gold); z-index: 9999; letter-spacing: 2px;
+            font-family: 'Cinzel'; text-transform: uppercase;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="bg-jewel"></div>
+    <div class="bg-imperial"></div>
     <div id="toast">Message</div>
 
     <div class="sticky-footer">
         Concierge Services: XXX-XXX-XXXX
     </div>
 
-    <div id="intro-screen">
-        <video id="intro-video" muted playsinline autoplay>
-            <source src="1000036559.mp4" type="video/mp4">
+    <div id="entry-screen">
+        <div class="entry-logo">JP RESIDENCY</div>
+        <button class="btn-start" onclick="window.startExperience()">ENTER RESIDENCE</button>
+    </div>
+
+    <div id="video-layer">
+        <video id="intro-video" playsinline>
+            <source src="work.mp4" type="video/mp4">
         </video>
-        <button id="skip-btn" onclick="endIntro()">Skip Intro</button>
+        <button id="skip-btn" onclick="window.endIntro()">SKIP INTRO</button>
     </div>
 
     <div id="loader">
         <div class="spinner"></div>
-        <div style="margin-top:30px; color:var(--gold); font-family:'Cinzel'; letter-spacing:4px; font-size:0.8rem;">SECURING DATA...</div>
+        <div style="margin-top:30px; color:var(--gold); font-family:'Cinzel'; letter-spacing:4px; font-size:0.8rem;">PROCESSING REQUEST</div>
     </div>
 
     <div id="pg-home" class="screen">
         <div class="card" style="text-align: center; padding: 120px 40px;">
-            <h1 style="font-size:5rem; line-height:1; color:#fff; text-shadow: 0 0 30px rgba(255,255,255,0.2);">JP</h1>
-            <div style="width: 100px; height: 1px; background: var(--gold); margin: 20px auto;"></div>
-            <p style="letter-spacing: 12px; color: var(--gold); font-family: 'Cinzel'; margin-bottom: 80px; font-size: 1rem;">RESIDENCY</p>
+            <h1 style="font-size:6rem; line-height:1; color:#fff;">JP</h1>
+            <div style="width: 2px; height: 60px; background: var(--gold); margin: 20px auto;"></div>
+            <p style="letter-spacing: 12px; color: var(--gold); font-family: 'Cinzel'; margin-bottom: 80px;">RESIDENCY</p>
             
-            <button class="btn btn-gold" onclick="window.nav('pg-reg')">Guest Registration</button>
+            <button class="btn btn-filled" onclick="window.nav('pg-reg')">Guest Registration</button>
             <button class="btn" onclick="window.nav('pg-login')">Resident Portal</button>
         </div>
         <button class="btn-corner" onclick="window.nav('pg-owner')">Owner</button>
@@ -267,7 +279,7 @@
 
                 <div class="grid" style="margin-top:40px;">
                     <button class="btn" style="border:1px solid #444; background:transparent; color:#888;" onclick="window.nav('pg-home')">Back</button>
-                    <button class="btn btn-gold" onclick="window.submitReg()">Submit Application</button>
+                    <button class="btn btn-filled" onclick="window.submitReg()">Submit Application</button>
                 </div>
             </form>
         </div>
@@ -283,12 +295,12 @@
                 <hr style="border:none; border-top:1px solid var(--gold); width: 50px; margin: 30px auto;">
                 
                 <p style="color:var(--gold-light); font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;">RESIDENCY ID</p>
-                <div id="suc-id" style="font-size:3.5rem; color:var(--emerald-bright); font-family:'Cinzel'; margin-bottom:40px; text-shadow: 0 0 10px var(--emerald);">JP0000</div>
+                <div id="suc-id" style="font-size:3.5rem; color:var(--gold); font-family:'Cinzel'; margin-bottom:40px;">JP0000</div>
                 
                 <p style="font-family:'Lato'; font-style:italic; color:#aaa;">You are now a distinguished member of the family.</p>
             </div>
             
-            <a href="https://chat.whatsapp.com/EVR6vqGqfvw2yWR7qEo72R?mode=gi_c" target="_blank" class="btn btn-gold" style="display:block; text-decoration:none; margin-bottom:20px;">
+            <a href="https://chat.whatsapp.com/EVR6vqGqfvw2yWR7qEo72R?mode=gi_c" target="_blank" class="btn btn-filled" style="display:block; text-decoration:none; margin-bottom:20px;">
                 <i class="fas fa-users"></i> Join Residential Group
             </a>
             
@@ -302,8 +314,8 @@
             <h2>Resident Login</h2>
             <label>Registration ID</label><input id="l-id" placeholder="JP...">
             <label style="margin-top:20px;">Password</label><input type="password" id="l-pass">
-            <button class="btn btn-gold" onclick="window.login()">Access Portal</button>
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-home')">Back</button>
+            <button class="btn btn-filled" onclick="window.login()">Enter</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-home')">Back</button>
         </div>
     </div>
 
@@ -311,8 +323,8 @@
         <div class="card">
             <h2>Owner Access</h2>
             <label>Security Key</label><input type="password" id="o-pass">
-            <button class="btn btn-gold" onclick="window.ownerLogin()">Unlock</button>
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-home')">Back</button>
+            <button class="btn btn-filled" onclick="window.ownerLogin()">Unlock</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-home')">Back</button>
         </div>
     </div>
 
@@ -320,7 +332,7 @@
         <div class="card">
             <h2>Directory</h2>
             <div id="list-box" style="max-height:400px; overflow-y:auto; padding:10px;"></div>
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-home')">Logout</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-home')">Logout</button>
         </div>
     </div>
 
@@ -379,8 +391,8 @@
                 <button class="btn" style="margin:0;" onclick="window.pageRent()">Rent Record</button>
                 <button class="btn" style="margin:0;" onclick="window.pageElec()">Electric Bill</button>
             </div>
-            <button class="btn btn-gold" onclick="window.pageDemand()">Net Demand</button>
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-home')">Sign Out</button>
+            <button class="btn btn-filled" onclick="window.pageDemand()">Net Demand</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-home')">Sign Out</button>
         </div>
     </div>
 
@@ -395,7 +407,7 @@
                 <thead><tr><th>Month</th><th>Amt</th><th>Status</th></tr></thead>
                 <tbody></tbody>
             </table>
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-dash')">Back</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-dash')">Back</button>
         </div>
     </div>
 
@@ -419,7 +431,7 @@
                 </div>
                 <div class="grid" style="margin-top:15px;">
                     <input type="number" id="nb-rate" placeholder="Rate" value="10">
-                    <button class="btn btn-gold" style="margin:0; font-size:0.7rem;" onclick="window.addBill()">Generate Bill</button>
+                    <button class="btn btn-filled" style="margin:0; font-size:0.7rem;" onclick="window.addBill()">Generate Bill</button>
                 </div>
             </div>
 
@@ -434,7 +446,7 @@
                 <input type="number" id="c-c" placeholder="Curr">
             </div>
             <button class="btn" onclick="window.calc()">Total: <span id="c-res" style="color:var(--text)">0</span></button>
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-dash')">Back</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-dash')">Back</button>
         </div>
     </div>
 
@@ -469,7 +481,7 @@
                 </div>
             </div>
             
-            <button class="btn" style="background:transparent; border:1px solid #333; color:#666;" onclick="window.nav('pg-dash')">Back</button>
+            <button class="btn" style="border-color:#333; color:#666;" onclick="window.nav('pg-dash')">Back</button>
         </div>
     </div>
 
@@ -496,12 +508,17 @@
         // Video Handling
         const video = document.getElementById('intro-video');
         video.onended = () => { window.endIntro(); };
-        window.endIntro = () => {
-            document.getElementById('intro-screen').style.opacity = '0';
+        window.startExperience = () => {
+            document.getElementById('entry-screen').style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('intro-screen').style.display = 'none';
-                window.nav('pg-home');
+                document.getElementById('entry-screen').style.display = 'none';
+                document.getElementById('video-layer').style.display = 'block';
+                video.play();
             }, 1000);
+        };
+        window.endIntro = () => {
+            document.getElementById('video-layer').style.display = 'none';
+            window.nav('pg-home');
         };
 
         window.nav = (id) => {
@@ -742,7 +759,6 @@
             document.getElementById('img-sig').src = user.imgs.sig;
             document.getElementById('img-meter-ref').src = user.imgs.meter;
 
-            // Extra Members
             const memDiv = document.getElementById('dash-members');
             memDiv.innerHTML = '<h3 style="margin-top:0">Residents</h3>';
             if(user.extras && user.extras.length > 0) {
@@ -753,7 +769,6 @@
                 });
             } else { memDiv.innerHTML += '<p style="color:#666">None</p>'; }
 
-            // Extra Photos
             const photoDiv = document.getElementById('dash-photos');
             photoDiv.innerHTML = '';
             if(user.resPhotos) {
